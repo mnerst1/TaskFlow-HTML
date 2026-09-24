@@ -30,7 +30,7 @@ Add your project screenshot here:
 <p align="center">
   <img
     src="https://github.com/user-attachments/assets/c79a600e-2635-4b0e-a66d-db6014347e88"
-    width="680"
+    width="780"
     alt="TaskFlow Preview"
   />
 </p>
