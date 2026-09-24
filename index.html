@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>TaskFlow</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- Левая панель -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-mark">T</div>
+
+            <div>
+                <strong>TaskFlow</strong>
+                <span>Personal tasks</span>
+            </div>
+        </div>
+
+
+        <nav class="nav">
+
+            <button
+                class="nav-item active"
+                data-filter="all"
+            >
+                <span>Inbox</span>
+
+                <span
+                    class="nav-count"
+                    id="sidebarAll"
+                >
+                    0
+                </span>
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-filter="today"
+            >
+                <span>Today</span>
+
+                <span
+                    class="nav-count"
+                    id="sidebarToday"
+                >
+                    0
+                </span>
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-filter="active"
+            >
+                <span>Active</span>
+
+                <span
+                    class="nav-count"
+                    id="sidebarActive"
+                >
+                    0
+                </span>
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-filter="completed"
+            >
+                <span>Completed</span>
+
+                <span
+                    class="nav-count"
+                    id="sidebarCompleted"
+                >
+                    0
+                </span>
+            </button>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <button
+                class="secondary-button full"
+                id="exportButton"
+            >
+                Export data
+            </button>
+
+
+            <label class="secondary-button full file-button">
+
+                Import data
+
+                <input
+                    id="importInput"
+                    type="file"
+                    accept=".json"
+                    hidden
+                >
+
+            </label>
+
+
+            <button
+                class="theme-button"
+                id="themeButton"
+            >
+                Dark mode
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- Основная область -->
+    <main class="main">
+
+        <header class="topbar">
+
+            <div>
+                <h1 id="pageTitle">
+                    Inbox
+                </h1>
+
+                <p id="pageSubtitle">
+                    Manage your tasks
+                </p>
+            </div>
+
+
+            <button
+                id="openTaskModal"
+                class="primary-button"
+            >
+                Add task
+            </button>
+
+        </header>
+
+
+        <!-- Поиск и сортировка -->
+        <section class="controls">
+
+            <div class="search-box">
+
+                <input
+                    id="searchInput"
+                    type="search"
+                    placeholder="Search tasks..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <select id="sortSelect">
+
+                <option value="created">
+                    Newest
+                </option>
+
+                <option value="oldest">
+                    Oldest
+                </option>
+
+                <option value="priority">
+                    Priority
+                </option>
+
+                <option value="deadline">
+                    Deadline
+                </option>
+
+            </select>
+
+        </section>
+
+
+        <!-- Статистика -->
+        <section class="summary">
+
+            <div>
+                <strong id="totalCount">
+                    0
+                </strong>
+
+                <span>
+                    Total
+                </span>
+            </div>
+
+
+            <div>
+                <strong id="activeCount">
+                    0
+                </strong>
+
+                <span>
+                    Active
+                </span>
+            </div>
+
+
+            <div>
+                <strong id="completedCount">
+                    0
+                </strong>
+
+                <span>
+                    Completed
+                </span>
+            </div>
+
+
+            <div>
+                <strong id="overdueCount">
+                    0
+                </strong>
+
+                <span>
+                    Overdue
+                </span>
+            </div>
+
+        </section>
+
+
+        <!-- Список -->
+        <section class="content">
+
+            <div
+                id="emptyState"
+                class="empty-state"
+            >
+                <h2>No tasks</h2>
+
+                <p>
+                    Add a task to get started.
+                </p>
+            </div>
+
+
+            <div
+                id="taskList"
+                class="task-list"
+            >
+            </div>
+
+        </section>
+
+
+        <footer class="footer">
+
+            <span id="footerInfo">
+                0 tasks
+            </span>
+
+
+            <button
+                id="clearCompleted"
+                class="link-button"
+            >
+                Clear completed
+            </button>
+
+        </footer>
+
+    </main>
+
+</div>
+
+
+<!-- MODAL -->
+
+<div
+    class="modal-overlay hidden"
+    id="taskModal"
+>
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h2 id="modalTitle">
+                Add task
+            </h2>
+
+
+            <button
+                class="icon-button"
+                id="closeModal"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="taskForm">
+
+            <input
+                type="hidden"
+                id="editingTaskId"
+            >
+
+
+            <label>
+
+                Title
+
+                <input
+                    id="taskTitle"
+                    maxlength="120"
+                    required
+                    autocomplete="off"
+                >
+
+            </label>
+
+
+            <label>
+
+                Notes
+
+                <textarea
+                    id="taskNotes"
+                    rows="4"
+                    maxlength="500"
+                ></textarea>
+
+            </label>
+
+
+            <div class="form-row">
+
+                <label>
+
+                    Priority
+
+                    <select id="taskPriority">
+
+                        <option value="low">
+                            Low
+                        </option>
+
+                        <option
+                            value="medium"
+                            selected
+                        >
+                            Medium
+                        </option>
+
+                        <option value="high">
+                            High
+                        </option>
+
+                    </select>
+
+                </label>
+
+
+                <label>
+
+                    Due date
+
+                    <input
+                        id="taskDeadline"
+                        type="date"
+                    >
+
+                </label>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    id="cancelModal"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                >
+                    Save task
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
