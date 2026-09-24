@@ -28,18 +28,11 @@ Add your project screenshot here:
 
 
 <p align="center">
-
-&#x20; <img
-
-&#x20;   src="<img width="1920" height="884" alt="{4B32A621-3D41-4483-A20B-BB16BAB14732}" src="https://github.com/user-attachments/assets/c79a600e-2635-4b0e-a66d-db6014347e88" />
-"
-
-&#x20;   width="800"
-
-&#x20;   alt="TaskFlow Preview"
-
-&#x20; >
-
+  <img
+    src="https://github.com/user-attachments/assets/c79a600e-2635-4b0e-a66d-db6014347e88"
+    width="550"
+    alt="TaskFlow Preview"
+  />
 </p>
 
 
