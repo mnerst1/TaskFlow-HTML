@@ -1,4 +1,4 @@
-\# ✅ TaskFlow
+# Day 005 — TaskFlow
 
 
 
@@ -8,9 +8,6 @@ A lightweight productivity task manager built with \*\*HTML, CSS and Vanilla Jav
 
 TaskFlow helps users organize everyday tasks with priorities, deadlines, filters, search, themes, statistics and local backup.
 
-
-
-This project was created as \*\*Day 005\*\* of my \*\*365 Days of Code\*\* challenge.
 
 
 
